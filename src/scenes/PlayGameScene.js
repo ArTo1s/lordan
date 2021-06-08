@@ -39,8 +39,16 @@ class PlayGameScene extends Scene {
       strokeThickness: 1
     }).setOrigin(0.5).setAngle(3);
 
-    const pirat = this.add.sprite(this.game.renderer.width - 380, this.game.renderer.height - 145, "pirat");
+    const pirat = this.add.sprite(this.game.renderer.width - 370, this.game.renderer.height - 155, "pirat").setScale(1.55);
     pirat.play("shake");
+
+    this.time.addEvent({
+      delay: 8000,
+      loop: true,
+      callback: () => {
+        pirat.play("shake");
+      }
+  });
   }
 
   drawGameGrid(config, callback) {
@@ -82,11 +90,18 @@ class PlayGameScene extends Scene {
   }
 
   createAnimations() {
+
     this.anims.create({
       key: "shake",
       frameRate: 7,
-      frames: this.anims.generateFrameNumbers("pirat", { start: 0, end: 5, first: 0 }),
-      repeat: -1
+      frames: this.anims.generateFrameNames("pirat", {
+        prefix: "Animation/Animation_",
+        suffix: ".png",
+        start: 0,
+        end: 11,
+        zeroPad: 4
+      }),
+      repeat: 2
     });
   }
 

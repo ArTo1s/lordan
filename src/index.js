@@ -1,6 +1,8 @@
 import Phaser from 'phaser';
-import logoImg from './assets/logo.png';
+import Bootscene from './scenes/Bootscene' 
+import PlayGameScene from './scenes/PlayGameScene' 
 
+/*
 class MyGame extends Phaser.Scene
 {
     constructor ()
@@ -26,14 +28,19 @@ class MyGame extends Phaser.Scene
             loop: -1
         });
     }
-}
+} */
 
 const config = {
+    width: 1000,
+    height: 725,
     type: Phaser.AUTO,
-    parent: 'phaser-example',
-    width: 800,
-    height: 600,
-    scene: MyGame
-};
+    backgroundColor: 0xffffff,
+    parent: 'gameDiv',
+    scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
+    scene: [Bootscene, PlayGameScene],
+}
 
 const game = new Phaser.Game(config);

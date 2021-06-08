@@ -11,17 +11,17 @@ class PlayGameScene extends Scene {
   create() {
     this.createAnimations();
 
-    this.cameras.main.fadeIn(500);
     this.add.image(0, 0, 'gamescene_background').setOrigin(0);
     this.sound_take = this.sound.add('take');
     let container = this.add.container(154.5, 271.5);
 
     const RandomizedMatrix = new RetentionMatrix(RetentionMatrixConfig);
     this.ground = RandomizedMatrix.getResult();
+    console.log('ground', this.ground);
 
+    this.cameras.main.fadeIn(500);
     this.movesLeft = 7;
     this.results = [0, 0, 0];
-
     this.frames = ["0.png", "1.png", "2.png"];
 
     this.drawGameGrid(RetentionMatrixConfig, (x, y, row, col) => {
@@ -102,28 +102,28 @@ class PlayGameScene extends Scene {
       case 'treasure':
         result = {
           text: '50 FREESPINS',
-          type: 'treasure'
+          value: 'C'
         };
         break;
 
       case 'coin':
         result = {
           text: '10 FREESPINS',
-          type: 'coin'
+          value: 'B'
         };
         break;
 
       case 'heart':
         result = {
           text: '5 FREESPINS',
-          type: 'heart'
+          value: 'A'
         };
         break;
 
       default:
         result = {
           text: 'something went wrong',
-          type: 'error'
+          value: 'error'
         };
     }
     //this.cameras.main.fadeOut(300);

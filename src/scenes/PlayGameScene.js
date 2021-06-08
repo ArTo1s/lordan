@@ -48,7 +48,7 @@ class PlayGameScene extends Scene {
       callback: () => {
         pirat.play("shake");
       }
-  });
+    });
   }
 
   drawGameGrid(config, callback) {
@@ -66,19 +66,12 @@ class PlayGameScene extends Scene {
     const [row, col, clickedItem] = sprite.getData(['row', 'col', 'item']);
     if (typeof clickedItem !== "undefined" && this.movesLeft != 0) {
       let frameNumber = this.ground[row][col];
-      debugger
       clickedItem.setFrame(this.frames[frameNumber]).removeInteractive();
       this.calculateResults(frameNumber);
       this.clickCountText.setText(this.movesLeft);
       this.sound_take.play();
-    }
-
-    if (this.movesLeft == 0) {
-      debugger
-      /*	this.drawResult();
-          this.gameOverText.setDepth(10);
-        this.gameOverText.visible = true;*/
-      return;
+      //this.cameras.main.shake(100);
+  
     }
   }
 
@@ -87,6 +80,57 @@ class PlayGameScene extends Scene {
     let cnt = this.results[frameNumber];
     cnt++;
     this.results[frameNumber] = cnt;
+    this.checkIfMeetWinningCombination(this.results);
+  }
+
+  checkIfMeetWinningCombination(results) {
+    const [heart, coin, treasure] = results;
+    if (treasure == 3) {
+      this.goToResultScene('treasure');
+    } else if (coin === 4) {
+      this.goToResultScene('coin');
+    }
+
+    if (this.movesLeft == 0) {
+      this.goToResultScene('heart');
+    }
+  }
+
+  goToResultScene(prizeType) {
+    let result = {};
+    switch (prizeType) {
+      case 'treasure':
+        result = {
+          text: '50 FREESPINS',
+          type: 'treasure'
+        };
+        break;
+
+      case 'coin':
+        result = {
+          text: '10 FREESPINS',
+          type: 'coin'
+        };
+        break;
+
+      case 'heart':
+        result = {
+          text: '5 FREESPINS',
+          type: 'heart'
+        };
+        break;
+
+      default:
+        result = {
+          text: 'something went wrong',
+          type: 'error'
+        };
+    }
+    //this.cameras.main.fadeOut(300);
+    this.time.delayedCall(1000, () => {
+      this.scene.start('ResultScene', result);
+		});
+
   }
 
   createAnimations() {

@@ -7,7 +7,7 @@ class BootScene extends Scene {
   }
 
   preload() {
-    this.load.setPath('../src/assets/');
+    this.load.setPath('./src/assets/');
     this.load.image('gamescene_background', 'maingame.png');
     this.load.image('result_screen', 'result_screen.png');
     this.load.atlas('cellIcons', 'texture.png', 'texture.json');
